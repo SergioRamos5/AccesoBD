@@ -10,24 +10,23 @@
         android:id="@+id/dni"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:hint="DNI"/>
+        android:hint="DNI" />
 
     <EditText
         android:id="@+id/nombre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/dni"
-        android:layout_marginTop="39dp"
-        android:hint="NOMBRE"/>
+        android:layout_marginTop="10dp"
+        android:hint="NOMBRE" />
 
     <EditText
         android:id="@+id/apellidos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/nombre"
-        android:layout_marginTop="44dp"
-        android:hint="APELLIDOS"/>
+        android:layout_marginTop="14dp"
+        android:hint="APELLIDOS" />
 
     <Button
         android:id="@+id/añadir"
@@ -35,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/apellidos"
         android:layout_marginLeft="50dp"
-        android:layout_marginTop="74dp"
+        android:layout_marginTop="23dp"
         android:hint="AÑADIR" />
 
     <Button
@@ -43,8 +42,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/apellidos"
-        android:layout_marginStart="124dp"
-        android:layout_marginTop="73dp"
+        android:layout_marginStart="115dp"
+        android:layout_marginTop="24dp"
         android:layout_toEndOf="@id/añadir"
         android:hint="MOSTRAR" />
 
@@ -52,7 +51,8 @@
         android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/añadir">
+        android:layout_below="@id/añadir"
+        android:layout_marginTop="9dp">
 
     </ListView>
 </RelativeLayout>

@@ -7,6 +7,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 
@@ -14,53 +19,61 @@ public class MainActivity extends AppCompatActivity {
 
     BDClientes clientes;
     SQLiteDatabase dbClientes;
-
+    ArrayList<Clientes> listaClientes;
+    Button añadir, mostrar;
+    EditText dni, nombre, apellidos;
+    ListView lista;
+    AdaptadorClientes adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        listaClientes = new ArrayList<>();
         clientes = new BDClientes(getBaseContext(), "BDCLIENTES", null , 1);
         dbClientes = clientes.getWritableDatabase();
 
-        if (dbClientes != null)
-        {
-//            for (int i = 0; i < 10; i++)
-//            {
-//                String sentencia = "INSERT INTO clientes (dni,nombre, apellidos) VALUES('"+i+"','nombre"+i+"', 'apellido" + i + "' );";
-//                dbClientes.execSQL(sentencia);
-//            }
-//            dbClientes.close();
+        añadir = findViewById(R.id.añadir);
+        mostrar = findViewById(R.id.mostrar);
+        dni = findViewById(R.id.dni);
+        nombre= findViewById(R.id.nombre);
+        apellidos = findViewById(R.id.apellidos);
+        lista = findViewById(R.id.listView);
 
-//            ContentValues valores = new ContentValues();
-//            valores.put("dni", "53479841");
-//            valores.put("nombre", "Sergio");
-//            valores.put("apellidos", "Ramos");
-//            dbClientes.insert("clientes", null, valores);
+        seleccionarDatosCodigo(new String[]{"dni", "nombre", "apellidos"}, null , null , "apellidos");
 
-//            ContentValues valore = new ContentValues();
-//            valore.put("nombre", "Paula");
-//            valore.put("apellidos", "Valero");
-//            valore.put("dni", "53697453");
-//            dbClientes.update("clientes", valore, "dni = 5", null);
 
-//            ContentValues valroes = new ContentValues();
-//            String [] args = {"0","1"};
-//            dbClientes.delete("clientes", "dni=? or dni=?", args);
-//            dbClientes.close();
-        }
+        mostrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                adapter = new AdaptadorClientes(MainActivity.this,R.layout.vista_lista, listaClientes);
+                lista.setAdapter(adapter);
+            }
+        });
+
+
+        añadir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (dbClientes != null) {
+                    ContentValues valores = new ContentValues();
+                    valores.put("dni", dni.getText().toString());
+                    valores.put("nombre", nombre.getText().toString());
+                    valores.put("apellidos", apellidos.getText().toString());
+                    dbClientes.insert("clientes", null, valores);
+                }
+            }
+        });
+
     }
 
-    private boolean seleccionarDatosSelect()
+    private boolean seleccionarDatosCodigo(String[] columnas, String where, String[] valores, String orderBy)
     {
-        ArrayList<Clientes> listaClientes;
-        dbClientes = clientes.getReadableDatabase();
-
+        dbClientes=clientes.getReadableDatabase();
         if (dbClientes != null)
         {
-            Cursor cursor = dbClientes.rawQuery("select * from clientes order by apellidos", null);
+            Cursor cursor = dbClientes.query("clientes", columnas, where, valores,null,null,orderBy);
             listaClientes = Clientes.getClientes(cursor);
-            dbClientes.close();
+
             if (listaClientes == null) return false;
             else return true;
         }
